@@ -1,0 +1,1059 @@
+:root {
+  /* Pflugerville-inspired civic palette */
+  --bg: #edf1f7; /* soft light blue/gray */
+  --panel: #ffffff; /* clean white panels */
+  --text: #1b2735; /* deep blue-gray */
+  --muted: #6b7280; /* muted gray/blue */
+  --border: #d5dde7; /* light border */
+  --primary: #004b8d; /* dark blue */
+  --primary-2: #003764; /* header blue */
+  --accent: #3ba54a; /* green */
+  --accent-2: #2c8c3c; /* deeper green */
+  --scrim: rgba(0, 56, 94, 0.55);
+
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 10px 24px rgba(15, 23, 42, 0.18);
+  --shadow-lg: 0 14px 30px rgba(15, 23, 42, 0.25);
+
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --focus: 0 0 0 3px rgba(96, 165, 250, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: var(--text);
+  background: radial-gradient(
+    circle at top,
+    #dbe7f9 0,
+    var(--bg) 40%,
+    #f9fafb 100%
+  );
+}
+
+.page {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(6px);
+  background: var(--primary-2);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.2);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 10px clamp(16px, 4vw, 28px);
+  gap: 12px;
+}
+
+/* left: logo container */
+.topbar__logo {
+  display: flex;
+  align-items: center;
+  min-width: 64px;
+  min-height: 40px;
+}
+
+.logo-placeholder {
+  height: 40px;
+  min-width: 56px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 12px;
+  font-weight: 700;
+  color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  user-select: none;
+}
+
+/* center: title block */
+.topbar__title {
+  text-align: center;
+  color: #f9fafb;
+}
+
+.topbar__title h1 {
+  margin: 0;
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 750;
+  letter-spacing: 0.2px;
+}
+
+.subtitle {
+  margin: 2px 0 0;
+  color: #cbd5f5;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+/* right: search + filter */
+.topbar__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.search input {
+  height: 40px;
+  padding: 0 14px;
+  width: min(360px, 58vw);
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  border-radius: 999px;
+  outline: none;
+  background: rgba(15, 23, 42, 0.25);
+  font-size: 14px;
+  color: #e5e7eb;
+}
+
+.search input::placeholder {
+  color: rgba(229, 231, 235, 0.55);
+}
+
+.search input:focus {
+  border-color: #60a5fa;
+  box-shadow: var(--focus);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+/* ===== BUTTONS ===== */
+
+/* Base button */
+.btn {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: #f9fafb;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease,
+    background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  text-decoration: none; /* important for <a class="btn"> */
+  user-select: none;
+}
+
+.btn:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0px);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.2);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.45),
+    0 8px 20px rgba(15, 23, 42, 0.2);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: none;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Outline button (theme-consistent and VISIBLE) */
+.btn-outline {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  border-color: rgba(229, 231, 235, 0.35);
+}
+
+.btn-outline:hover {
+  background: rgba(96, 165, 250, 0.22);
+  border-color: rgba(96, 165, 250, 0.75);
+  color: #ffffff;
+}
+
+/* Filters button special hover = light blue */
+.btn-filters {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.btn-filters:hover {
+  background: rgba(96, 165, 250, 0.28);
+  border-color: rgba(96, 165, 250, 0.9);
+}
+
+/* Small icon in filters */
+.filter-btn-icon {
+  font-size: 16px;
+}
+
+/* Wrapper so badge can sit on the corner */
+.filter-btn-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Badge (green count) */
+.filter-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 20px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.35);
+  border: 2px solid var(--primary-2);
+  pointer-events: none;
+}
+
+/* Icon button (close X) */
+.iconbtn {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* ===== LAYOUT ===== */
+
+.container {
+  width: min(1150px, 92%);
+  margin: 0 auto;
+  padding: 20px 0 28px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 12px;
+}
+
+/* ===== HOME CTA TILES ===== */
+
+.cta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .cta {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.cta__tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #000;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  padding: 0;
+
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  will-change: transform, box-shadow;
+}
+
+.cta__tile:hover,
+.cta__tile:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: var(--shadow-md);
+  outline: none;
+}
+
+.cta__tile:focus-visible {
+  box-shadow: var(--shadow-md), 0 0 0 3px rgba(0, 87, 163, 0.35);
+}
+
+.cta__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform 0.35s ease;
+}
+
+.cta__tile:hover .cta__img,
+.cta__tile:focus-visible .cta__img {
+  transform: scale(1.05);
+}
+
+.cta__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.12));
+}
+
+.cta__content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: #ffffff;
+  padding: 14px;
+}
+
+.cta__title {
+  font-weight: 800;
+  font-size: clamp(16px, 2vw, 18px);
+}
+
+.cta__desc {
+  font-size: 12px;
+  opacity: 0.96;
+  margin-top: 4px;
+}
+
+/* ===== SECTIONS ===== */
+
+.about,
+.section {
+  margin-top: 18px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.about h2,
+.section__head h2 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--primary-2);
+}
+
+/* Header row inside sections */
+.section__head {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+/* IMPORTANT:
+   Any "Back to home" / "View all resources" link should use className="linkbtn"
+   so it matches theme instead of plain hyperlink styling.
+*/
+.linkbtn {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 75, 141, 0.22);
+  background: rgba(0, 75, 141, 0.06);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    transform 0.15s ease;
+  user-select: none;
+}
+
+.linkbtn:hover {
+  background: rgba(59, 165, 74, 0.12);
+  border-color: rgba(59, 165, 74, 0.45);
+  transform: translateY(-1px);
+}
+
+.linkbtn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+/* Keep .section__link for legacy usage, but make it look like a button too */
+.section__link {
+  /* If your code still uses section__link, it’ll look good now */
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 75, 141, 0.22);
+  background: rgba(0, 75, 141, 0.06);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.section__link:hover {
+  background: rgba(59, 165, 74, 0.12);
+  border-color: rgba(59, 165, 74, 0.45);
+  transform: translateY(-1px);
+}
+
+.section__link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+/* ===== LISTS (Calendar) ===== */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.list__item {
+  display: grid;
+  grid-template-columns: 86px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  background: #f9fbff;
+}
+
+.list__date {
+  font-weight: 800;
+  background: #e3f4ea;
+  color: #166534;
+  padding: 6px 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.list__title {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+/* ===== MAP ===== */
+
+.mapwrap {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.map-leaflet {
+  width: 100%;
+  height: 420px; /* must be >0 */
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  font: inherit;
+}
+
+/* Make leaflet controls/panes behave nicely with your modal */
+.leaflet-pane,
+.leaflet-control,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 400; /* below overlay (2000) */
+}
+
+/* ===== CARDS (Resources + Highlights) ===== */
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 720px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1040px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  background: var(--panel);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
+}
+
+.card__title {
+  margin: 0 0 4px;
+  font-weight: 900;
+  color: var(--primary-2);
+  letter-spacing: 0.2px;
+}
+
+.card__desc {
+  margin: 0 0 10px;
+}
+
+.card__meta {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.card__metaitem a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.card__metaitem a:hover {
+  text-decoration: underline;
+}
+
+.card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 12px;
+  padding: 5px 10px;
+  border: 1px solid rgba(59, 165, 74, 0.22);
+  border-radius: 999px;
+  background: rgba(59, 165, 74, 0.1);
+  color: #14532d;
+  font-weight: 700;
+}
+
+/* Buttons row INSIDE cards (highlights / resources) */
+.card__actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Make "Website" visible as an outline button on white cards */
+.btn-card {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 75, 141, 0.28);
+  background: rgba(0, 75, 141, 0.06);
+  color: var(--primary);
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.btn-card:hover {
+  background: rgba(59, 165, 74, 0.14);
+  border-color: rgba(59, 165, 74, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+/* Primary CTA inside cards */
+.btn-primary {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: #ffffff;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+  transform: translateY(-1px);
+}
+
+.btn-primary:focus-visible {
+  outline: none;
+  box-shadow: var(--focus), 0 10px 22px rgba(15, 23, 42, 0.18);
+}
+
+/* ===== FILTERS OVERLAY ===== */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  display: grid;
+  place-items: center;
+
+  /* Important: allow panel to fit smaller heights */
+  padding: 16px;
+  z-index: 2000;
+}
+
+/* Panel should never exceed viewport */
+.panel {
+  width: min(680px, 96vw);
+  max-height: min(78vh, 720px); /* prevents "doesn't fit well" on PC */
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header stays fixed; body scrolls */
+.panel__header {
+  flex: 0 0 auto;
+}
+
+.panel__content {
+  flex: 1 1 auto;
+  overflow: auto; /* scroll inside */
+  padding: 14px 16px;
+}
+
+.panel__footer {
+  flex: 0 0 auto;
+}
+
+.panel__header h2 {
+  margin: 0;
+  color: var(--primary-2);
+  font-weight: 900;
+}
+
+/* checkbox rows */
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #f8fafc;
+}
+
+.switch input {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 520px) {
+  .panel {
+    max-height: 86vh;
+  }
+
+/* ===== FORMS (Submit resource) ===== */
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--primary-2);
+}
+
+.field input,
+.field textarea {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font: inherit;
+  outline: none;
+  background: #fff;
+}
+
+.field textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: rgba(96, 165, 250, 0.75);
+  box-shadow: var(--focus);
+}
+
+/* Tag chips row */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  border-radius: 999px;
+  border: 1px solid rgba(0, 75, 141, 0.22);
+  background: rgba(0, 75, 141, 0.06);
+  color: var(--primary-2);
+  padding: 8px 12px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease, background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.chip:hover {
+  background: rgba(59, 165, 74, 0.14);
+  border-color: rgba(59, 165, 74, 0.5);
+  transform: translateY(-1px);
+}
+
+/* input + button row inside form */
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.row > * {
+  flex: 1;
+}
+
+.row .btn,
+.row .btn-primary,
+.row .btn-card {
+  flex: 0 0 auto;
+}
+
+/* ===== FOOTER ===== */
+
+.footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.footer .container {
+  padding: 14px 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ===== CUSTOM CATEGORY MARKERS (DivIcon) ===== */
+
+.pin-wrap {
+  background: transparent !important;
+  border: none !important;
+}
+
+.pin {
+  position: relative;
+  width: 34px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+}
+
+.pin__bubble {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+}
+
+.pin__bubble svg {
+  width: 16px;
+  height: 16px;
+}
+
+.pin__stem {
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid rgba(0, 0, 0, 0.18);
+  transform: translateY(3px);
+  filter: blur(0.2px);
+}
+
+/* =========================
+   LAYOUT HARDENING PATCH
+   (put at bottom of styles.css)
+   ========================= */
+
+/* Ensure main content always has the expected centered width */
+main.container,
+.container {
+  width: min(1150px, 92%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* If any page accidentally renders cards outside a grid, this prevents full-width weirdness */
+.section {
+  width: 100%;
+}
+
+/* Make section headers always align nicely (title left, actions right) */
+.section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap; /* prevents overlap on small screens */
+}
+
+.section__head > div {
+  min-width: 240px; /* keeps the left block readable */
+}
+
+/* FORCE cards to behave like a grid consistently */
+.cards {
+  display: grid !important;
+  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  align-items: stretch;
+}
+
+@media (min-width: 720px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (min-width: 1040px) {
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Make sure each card looks consistent and doesn't "collapse" */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+/* Highlight cards often include button rows: keep them aligned and visible */
+.card__actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+/* Fix “Website” looking disabled/washed out on white backgrounds */
+.btn-card {
+  opacity: 1 !important;
+  color: var(--primary) !important;
+  background: rgba(0, 75, 141, 0.07) !important;
+  border-color: rgba(0, 75, 141, 0.28) !important;
+}
+
+.btn-card:hover {
+  background: rgba(59, 165, 74, 0.14) !important;
+  border-color: rgba(59, 165, 74, 0.45) !important;
+}
+
+/* If your Website button is actually using btn-outline in highlights, force it visible */
+.card .btn-outline,
+.section .btn-outline {
+  background: rgba(0, 75, 141, 0.07) !important;
+  border-color: rgba(0, 75, 141, 0.28) !important;
+  color: var(--primary) !important;
+}
+
+.card .btn-outline:hover,
+.section .btn-outline:hover {
+  background: rgba(59, 165, 74, 0.14) !important;
+  border-color: rgba(59, 165, 74, 0.45) !important;
+}
+
+/* Keep your pill links ("View all resources", "Back to home") nicely aligned */
+.linkbtn,
+.section__link {
+  white-space: nowrap;
+}
+
+/* Outline button should be readable on white sections/cards */
+.section .btn-outline,
+.card .btn-outline {
+  background: rgba(0, 75, 141, 0.07);
+  border-color: rgba(0, 75, 141, 0.28);
+  color: var(--primary);
+}
+
+.section .btn-outline:hover,
+.card .btn-outline:hover {
+  background: rgba(59, 165, 74, 0.14);
+  border-color: rgba(59, 165, 74, 0.45);
+  color: var(--primary);
+}
+
+/* ===== MOBILE ACCESSIBILITY / TAP TARGETS ===== */
+
+/* Avoid “weird stacking” and make tap targets comfortable */
+@media (max-width: 520px) {
+  .btn,
+  .btn-outline,
+  .btn-primary,
+  .btn-card,
+  .linkbtn,
+  .section__link {
+    height: 44px; /* better touch target */
+  }
+
+  .container {
+    padding: 14px 0 20px;
+  }
+
+  .cta__tile {
+    aspect-ratio: 16 / 10; /* less tall on phones */
+  }
+}
+
+/* ===== LANGUAGE TOGGLE ===== */
+
+.lang-toggle {
+  display: inline-flex;
+  border: 1px solid rgba(229, 231, 235, 0.35);
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.langbtn {
+  height: 40px;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.langbtn.on {
+  background: rgba(96, 165, 250, 0.25);
+  color: #ffffff;
+}
+
+.langbtn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+/* Remove Leaflet's default divIcon styling */
+/* Remove Leaflet default divIcon box */
+.crh-leaflet-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Rounded-square teal marker (like screenshot) */
+.crh-marker {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #0f6b63;
+  border: 3px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* react-icons inside marker */
+.crh-marker svg {
+  width: 22px;
+  height: 22px;
+  fill: #ffffff;   /* most Fa icons use fill */
+}
